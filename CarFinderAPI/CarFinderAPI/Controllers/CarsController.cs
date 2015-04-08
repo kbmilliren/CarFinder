@@ -54,7 +54,7 @@ namespace CarFinderAPI.Controllers
 
 
         [HttpGet, HttpPost, Route("getCars")]
-        public async Task<IHttpActionResult> GetCars(int year, string make, string model, string trim)
+        public async Task<IHttpActionResult> GetCars(int? year, string make, string model, string trim)
         {
             return Ok(await db.GetCars(year, make, model, trim));
         }
