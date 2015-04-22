@@ -1,7 +1,4 @@
-﻿
-angular.module('carFinderApp', []);
-
-angular.module('carFinderApp')
+﻿angular.module('carFinderApp')
     .factory('carSvc', ['$http', function ($http) {
         var factory = {};
 
@@ -48,7 +45,24 @@ angular.module('carFinderApp')
             });
         };
 
-        return factory
+        factory.recall = function (year, make, model) {
+            var options = { params: { year: year, make: make, model: model } }
+            return $http.get('api/cars/getRecalls', options).
+            then(function (response)
+            { return response.data });
+        }
 
+        factory.getCar = function (id) {
+            var options = { params: { id: id } }
+            return $http.get('api/cars/getCar', options).
+            then(function (response)
+            {
+                response.data.RecallData = JSON.parse(response.data.RecallData)
+                return response.data
+            });
+        }
+
+        return factory
+       
     }]);
 

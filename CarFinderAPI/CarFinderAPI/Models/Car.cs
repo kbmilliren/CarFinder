@@ -17,4 +17,12 @@ namespace CarFinderAPI.Models
         public string trim { get; set; }
         public int id { get; set; }
     }
+
+    public class CarViewModel
+    {
+        public Car Car { get; set; }
+        public string RecallData {get; set;}
+        public string ImageUrl {get; set;}
+    }
+
 }

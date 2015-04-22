@@ -10,6 +10,9 @@ using CarFinderAPI.Models.Data_Interfaces;
 using System.Web;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using System.Security.Policy;
+using CarFinderAPI.Models;
+using Bing;
 
 namespace CarFinderAPI.Controllers
 {
@@ -58,6 +61,88 @@ namespace CarFinderAPI.Controllers
         {
             return Ok(await db.GetCars(year, make, model, trim));
         }
+
+        [HttpGet, HttpPost, Route("getRecalls")]
+        public async Task<IHttpActionResult> getRecalls(string year, string make, string model)
+        {
+            HttpResponseMessage response;
+            string content = "";
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://www.nhtsa.gov");
+                try
+                {
+                    response = await client.GetAsync("/webapi/api/Recalls/vehicle/modelyear/" + year.ToString() + "/make/" + make + "/model/" + model + "?format=json");
+                    content = await response.Content.ReadAsStringAsync();
+                }
+                catch(Exception e)
+                {
+                    return InternalServerError(e);
+                }
+            }
+            return Ok(content);
+        }
+
+        [HttpGet, HttpPost, Route("getCar")]
+        public async Task<IHttpActionResult> getCar(int Id)
+        {
+            HttpResponseMessage response;
+            string content = "";
+            var carModel = new CarViewModel()
+            {
+                Car = await db.GetCar(Id),
+                RecallData = content,
+                ImageUrl = ""
+            };
+           
+            
+           
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://www.nhtsa.gov");
+                try
+                {
+                    response = await client.GetAsync("/webapi/api/Recalls/vehicle/modelyear/" + carModel.Car.year + "/make/" + carModel.Car.make + "/model/" + carModel.Car.model + "?format=json");
+                    content = await response.Content.ReadAsStringAsync();
+                }
+                catch (Exception e)
+                {
+                    return InternalServerError(e);
+                }
+            }
+            carModel.RecallData = content;
+
+           
+
+            var image = new BingSearchContainer(
+            new Uri("https://api.datamarket.azure.com/Bing/search/")
+    );
+            image.Credentials = new NetworkCredential("accountKey", "3CaSEx+O29220bzCzXbb+uwDmtXhv6TnyfUfyhVX1k4");
+            var marketData = image.Composite(
+                "image",
+                carModel.Car.year + " " + carModel.Car.make + " " + carModel.Car.model + " " + carModel.Car.trim + " ",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+                ).Execute();
+
+            var img = marketData.First().Image.First().MediaUrl;
+            carModel.ImageUrl = img;
+            
+            return Ok(carModel);
+        }
         
     }
+         
 }
+
