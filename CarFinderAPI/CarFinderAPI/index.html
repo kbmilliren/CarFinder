@@ -1,168 +1,74 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title></title>
+    <title>Car Finder Extraordinaire</title>
+    <link href="Content/ui-grid-unstable.css" rel="stylesheet" />
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/Site.css" rel="stylesheet" />
     <script src="Scripts/jquery-2.1.3.min.js"></script>
     <script src="Scripts/angular.min.js"></script>
     <script src="Scripts/angular-ui/ui-bootstrap.min.js"></script>
     <script src="Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
-    <link href="Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <script src="Scripts/ui-grid-unstable.js"></script>
 
 
     <link rel="shortcut icon" href="Images/sedan-512.png">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+    <!-- Favicon Icon -->
+    <!-- ION ICONS STYLES -->
+    <link href="assets/css/ionicons.css" rel="stylesheet" />
+    <!-- FONT AWESOME ICONS STYLES -->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- CUSTOM CSS -->
+    <link href="assets/css/style.css" rel="stylesheet" />
+    <!-- IE10 viewport hack  -->
+    <script src="assets/js/ie-10-view-port.js"></script>
+    <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
-    <style>
-        body {
-            background-color: grey;
-            background-size: 100%
-        }
-        td {
-            color: black
-        }
-    </style>
 
 
 </head>
 
-    
 <body ng-app="carFinderApp">
-
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Car Finder Extraordinaire</a>
-            </div><!-- /.navbar-collapse -->
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/help">API Help</a></li>
-            </ul>
-</div><!-- /.container-fluid -->
-  
-</nav>
-<div ng-controller="carFinderController">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-3">
-                    <label for="Years">Select Year</label>
-                    <select ng-model="selectedYear" ng-options="year for year in years" ng-change="getMakes()" class="form-control"></select>
-                </div>
-                <div class="col-md-3">
-                    <label for="Makes">Select Make</label>
-                    <select ng-model="selectedMake" ng-options="make for make in makes" ng-change="getModels()" class="form-control"></select>
-                </div>
-                <div class="col-md-3">
-                    <label for="Model">Select Model</label>
-                    <select ng-model="selectedModel" ng-options="model for model in models" ng-change="getTrims()" class="form-control"></select>
-                </div>
-                <div class="col-md-3">
-                    <label for="Trims">Select Trim</label>
-                    <select ng-model="selectedTrim" ng-options="trim for trim in trims" ng-change="getCars()" class="form-control"></select>
-                </div>
-            </div>           
-        </div>
-        <div class="col-md-12">
-            <table id="table_id" class="table">
-                <thead>
-                    <tr>
-                        <th>Year</th>
-                        <th>Make</th>
-                        <th>Model</th>
-                        <th>Trim</th>
-                        <th>Recall Data</th>
-                    </tr>
-                </thead>
-                <tbody ng-repeat="car in cars">
-                    <tr>
-                        <td>{{car.year}}</td>
-                        <td>{{car.make}}</td>
-                        <td>{{car.model}}</td>
-                        <td>{{car.trim}}</td>
-                        <td><button class="btn-sm" ng-click="open(car.id)">Recall Data</button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <!-- HEADER SECTION START-->
+    <header id="header">
         <div class="container">
-            <div class="col-md-12">
-                <div ng-show="">{{recall.Summary}}</div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 logo-wrapper">
+                    <img src="Images/sedan-512.png" /><h4>Car Finder Extraordinaire</h4>
+                </div>
+                <div class="pull-right">
+                    <a href="/help">API Help</a>
+                    <br/>
+                    <a href="home.html">Test Drive</a>
+                </div>
+            </div>
+
+        </div>
+    </header>
+    <!-- HEADER SECTION END-->
+    <!--HOME SECTION START  -->
+    <div id="home">
+        <div class="overlay">
+            <div class="container">
+                <div class="jumbotron">
+                    <h1>Car Finder Extraordinaire!</h1>
+                    <p>This is a car finder that lets the user search cars by year, make, model, and trim style. Then gives a list of information regarding the car including images and recall date. Click below to give it a test drive.</p>
+                    <p><a class="btn btn-primary btn-lg" href="home.html" role="button">Test Drive</a></p>
+                </div>
             </div>
         </div>
     </div>
-    <script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">{{car.Car.year}} {{car.Car.make}} {{car.Car.model}}</h3>
-        </div>
-        <div class="modal-body">
-            <img src="{{car.ImageUrl}}" style="width:100%" />
-            <br />
-            <tabset justified="true">
-                <tab heading="Car Data">
-                    Year: {{car.Car.year}}
-                    Make: {{car.Car.make}}
-                    Model: {{car.Car.model}}
-                    Trim: {{car.Car.trim}}
-                </tab>
-                <tab heading="Recall Data">
-                    <table ng-repeat="r in car.RecallData.Results">
-                        <thead>
-                            <tr>
-                                <th>Component</th>
-                                <th>Summary</th>
-                                <th>Remedy</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{r.Component}}</td>
-                                <td>{{r.Summary}}</td>
-                                <td>{{r.Remedy}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </tab>
-            </tabset>
-
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-        </div>
-    </script>
-
-   
-</div>
-
-
-    <script src="NgApps/Modules/app.js"></script>
-    <script src="NgApps/Service/carSvc.js"></script>
-    <script src="NgApps/Controller/carController.js"></script>
-
-
-
-    <script>
-        $(document).ready(function () {
-            $('#table_id').dataTable();
-
-        });
-    </script>
-
-
-
-
-
-
-
-
-
-
 </body>
 </html>

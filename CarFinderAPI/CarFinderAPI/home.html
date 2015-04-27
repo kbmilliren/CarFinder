@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Car Finder Extraordinaire</title>
+    <link href="Content/ui-grid-unstable.css" rel="stylesheet" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/Site.css" rel="stylesheet" />
+    <script src="Scripts/jquery-2.1.3.min.js"></script>
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/angular-ui/ui-bootstrap.min.js"></script>
+    <script src="Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
+    <script src="Scripts/ui-grid-unstable.js"></script>
+
+
+    <link rel="shortcut icon" href="Images/sedan-512.png">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+    <!-- Favicon Icon -->
+    <!-- ION ICONS STYLES -->
+    <link href="assets/css/ionicons.css" rel="stylesheet" />
+    <!-- FONT AWESOME ICONS STYLES -->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- CUSTOM CSS -->
+    <link href="assets/css/style.css" rel="stylesheet" />
+    <!-- IE10 viewport hack  -->
+    <script src="assets/js/ie-10-view-port.js"></script>
+    <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+
+</head>
+
+<body ng-app="carFinderApp">
+    <!-- HEADER SECTION START-->
+    <header id="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 logo-wrapper">
+                    <a href="index.html"><img src="Images/sedan-512.png" /><h4>Car Finder Extraordinaire</h4>
+                    </a>
+                </div>
+                <div class="pull-right">
+                    <a href="/help">API Help</a>
+                    <br />
+                    <a href="home.html">Test Drive</a>
+                </div>
+            </div>
+           
+        </div>
+    </header>
+    <!-- HEADER SECTION END-->
+    <!--HOME SECTION START  -->
+    <div id="home">
+        <div class="overlay">
+            <div class="container">
+                <div class="row scroll-me">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div ng-controller="carFinderController">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <label for="Years">Select Year</label>
+                                            <select ng-model="selectedYear" ng-options="year for year in years" ng-change="getMakes()" class="form-control"></select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="Makes">Select Make</label>
+                                            <select ng-model="selectedMake" ng-options="make for make in makes" ng-change="getModels()" class="form-control"></select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="Model">Select Model</label>
+                                            <select ng-model="selectedModel" ng-options="model for model in models" ng-change="getTrims()" class="form-control"></select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="Trims">Select Trim</label>
+                                            <select ng-model="selectedTrim" ng-options="trim for trim in trims" ng-change="getCars()" class="form-control"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <br/>
+                                <div class="col-md-12" ng-show="selectedYear">
+
+                                    <div ui-grid="myData" external-scopes="gridFunctions" ui-grid-pagination class="myGrid"></div>
+
+
+
+                                </div>
+                                <div ng-hide="selectedYear">
+                                    <p>Please select a year.</p>
+                                </div>
+                            </div>
+                            <script type="text/ng-template" id="myModalContent.html">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">{{car.Car.year}} {{car.Car.make}} {{car.Car.model}}</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="{{car.ImageUrl}}" style="width:100%" />
+                                    <br />
+                                    <br/>
+                                    <tabset justified="true">
+                                        <tab heading="Car Data">
+                                            <p><b>Year:</b> {{car.Car.year}}</p>
+                                            <p><b>Make:</b> {{car.Car.make}}</p>
+                                            <p><b>Model:</b> {{car.Car.model}}</p>
+                                            <p><b>Trim:</b> {{car.Car.trim}}</p>
+                                        </tab>
+                                        <tab heading="Recall Data">
+                                        <div class="wrapper">
+                                            <div class="row">
+                                                <b>Component:</b> {{arrayRecall[current].Component}}
+                                            </div>
+                                            <div class="row">
+                                                <b>Summary:</b> {{arrayRecall[current].Summary}}
+                                            </div>
+                                            <div class="row">
+                                                <b>Conequence:</b> {{arrayRecall[current].Conequence}}
+                                            </div>
+                                            <div class="row">
+                                                <b>Resolution:</b> {{arrayRecall[current].Remedy}}
+                                            </div>
+                                        </div>
+                                            
+                                            <div>
+                                                <button class="btn btn-primary" ng-click="previous()">Previous</button>
+                                                <button class="btn btn-primary" ng-click="next()">Next</button>
+                                            </div>
+
+                                        </tab>
+                                    </tabset>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" ng-click="ok()">OK</button>
+                                </div>
+                            </script>
+
+
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                        <script src="NgApps/Modules/app.js"></script>
+                        <script src="NgApps/Service/carSvc.js"></script>
+                        <script src="NgApps/Controller/carController.js"></script>
+
+
+
+</body>
+</html>
+
+
+

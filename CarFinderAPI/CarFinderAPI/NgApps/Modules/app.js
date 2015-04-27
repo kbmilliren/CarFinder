@@ -1,1 +1,1 @@
-﻿angular.module('carFinderApp', ['ui.bootstrap'])
+﻿angular.module('carFinderApp', ['ui.bootstrap', 'ui.grid', 'ui.grid.pagination'])
